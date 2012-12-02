@@ -21,33 +21,35 @@
 
 
 # Constants
-statNamesAndIndexes = {'pass yard':7}
+statNamesAndIndexes = {'pass yard': 7}
 
 file = open('11-data/team-game-statistics.csv', 'r')
 
 teamDictionary = dict()
 
 def extractGameData(gameData):
- '''Extracts the relevant data from a single game. The data is
+  '''
+  Extracts the relevant data from a single game. The data is
   returned as a list, where the key is the stat name,
   e.g. processedGameData['rush att'] will return the number of 
-  rushing attempts by the team in that game.'''
-
+  rushing attempts by the team in that game.
+  '''
+  global statNamesAndIndexes
+  gameDataDict = dict()
+  for key,value in statNamesAndIndexes.items():
+    gameDataDict[key] = int(gameData[value])
+  return gameDataDict
 
 
 def processNextGame(teamDictionary, teamCode, gameData):
   '''Processes the next game of data by appending to the team's list of
     game data an updated dictionary with the latest cumulative stats.'''
   teamData = teamDictionary[teamCode]
-  processedGameData = extractGameData(gameData)
-  cumulativeSeasonData = dict()
+  cumulativeSeasonData = extractGameData(gameData) 
   numPrevGames = len(teamData)
   if numPrevGames > 0:
-    for key,value in teamData[numPrevGames - 1]:
-      cumulativeSeasonData[key] = teamData[numPrevGames - 1][key] + processedGameData[key]
-  else:
-    cumul
-
+    for key,value in teamData[numPrevGames - 1].items():
+      cumulativeSeasonData[key] += teamData[numPrevGames - 1][key]
   teamData.append(cumulativeSeasonData)
 
 
@@ -55,12 +57,34 @@ def processNextGame(teamDictionary, teamCode, gameData):
 # Main Script
 for line in file:
   gameData = line.split(',')
-  teamCode = gameData[1]
-  if teamDictionary.contains(teamCode):
+  teamCode = gameData[0]
+  if teamCode[0] == '"':
+    continue
+  if teamCode in teamDictionary:
     processNextGame(teamDictionary, teamCode, gameData)
-  else 
+#    cumulData = teamDictionary[teamCode][len(teamDictionary[teamCode]) - 1]
+#    print type(cumulData)
+  else:
     teamDictionary[teamCode] = []
     processNextGame(teamDictionary, teamCode, gameData)
+#    print type(teamDictionary[teamCode][0])
+
+#####
+#### for testing sorting by passing yards
+#####
+from collections import OrderedDict
+
+def extractPassYardsFromDict(cumulativeList):
+  cumulativeList = cumulativeList[1]
+#  print cumulativeList[1]
+#  print type(cumulativeList[len(cumulativeList) - 1])
+#  print type(cumulativeList[len(cumulativeList) - 1])
+  return cumulativeList[len(cumulativeList) - 1]['pass yard']
+
+#print teamDictionary['288']
+orderedDict = OrderedDict(sorted(teamDictionary.items(), key=extractPassYardsFromDict, reverse=True))
+
+print orderedDict.keys()
 
 file.close()
 

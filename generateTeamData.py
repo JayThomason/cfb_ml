@@ -55,6 +55,13 @@ class DataExtractor:
       averageDict[key] = (1.0 * value) / numGames
     return averageDict
 
+  def arrangeData(self, gameCode):
+    data = self.featureDictionary[gameCode]
+    if len(data) == 3:
+      input = (data[1], data[2])
+      output = data[0] 
+      self.featureDictionary[gameCode] = (input, output)
+
   def processGame(self, gameCode):
     '''
     Processes the next game of data by appending to the team's list of
@@ -77,7 +84,20 @@ class DataExtractor:
         for key,value in oldTeamData[numPrevGames - 1].items():
           cumulativeSeasonData[key] += oldTeamData[numPrevGames - 1][key]
       oldTeamData.append(cumulativeSeasonData)
+    self.arrangeData(gameCode)
 
+
+  def getOrderedGameList(self):
+    file = open('11-data/game.csv')
+    orderedGameList = list()
+    for line in file:
+      gameData = line.split(',')
+      gameCode = gameData[0]
+      if gameCode[0] == '"':
+        continue
+      orderedGameList.append(gameCode)
+    file.close()
+    return orderedGameList
 
   def __init__(self):
     file = open('11-data/team-game-statistics.csv', 'r')
@@ -95,12 +115,11 @@ class DataExtractor:
         self.gameDictionary[gameCode] = list()
         self.gameDictionary[gameCode].append(gameData)
         self.gameOrder.append(gameCode)
-    for gameCode in self.gameOrder:
+    for gameCode in self.getOrderedGameList():
       self.processGame(gameCode)
     file.close()
 
 dataExtractor = DataExtractor()
-dict = dataExtractor.featureDictionary['0674052120120102']
-print dict
-
-
+featureDictionary =  dataExtractor.featureDictionary
+for key, value in featureDictionary.items():
+  print value

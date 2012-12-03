@@ -61,6 +61,8 @@ class DataExtractor:
       input = (data[1], data[2])
       output = data[0] 
       self.featureDictionary[gameCode] = (input, output)
+    else:
+      self.featureDictionary.pop(gameCode)
 
   def processGame(self, gameCode):
     '''
@@ -118,8 +120,11 @@ class DataExtractor:
     for gameCode in self.getOrderedGameList():
       self.processGame(gameCode)
     file.close()
-
-dataExtractor = DataExtractor()
-featureDictionary =  dataExtractor.featureDictionary
-for key, value in featureDictionary.items():
-  print value
+if __name__ == '__main__':
+  dataExtractor = DataExtractor()
+  featureDictionary =  dataExtractor.featureDictionary
+  #for key, value in featureDictionary.items():
+  #  print key 
+  #  assert(len(value) == 2)
+  #  assert(len(value[0]) == 2)
+  print len(featureDictionary.keys())

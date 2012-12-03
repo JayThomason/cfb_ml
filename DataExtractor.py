@@ -148,6 +148,6 @@ class DataExtractor:
 
 
 if __name__ == '__main__':
-  dataExtractor = DataExtractor(10)
+  dataExtractor = DataExtractor(12)
   featureDictionary =  dataExtractor.featureDictionary
   print len(featureDictionary.keys())

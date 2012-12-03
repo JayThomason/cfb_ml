@@ -29,11 +29,6 @@ defensiveStats = {'scoring defense': 35}
 
 class DataExtractor:
 
-  teamDictionary = dict()
-  gameDictionary = dict()
-  featureDictionary = dict()
-  gameOrder = list()
-
   def extractGameData(self, firstTeamData, secondTeamData):
     '''
     Extracts the relevant data from a single game. The data is
@@ -102,6 +97,14 @@ class DataExtractor:
     return orderedGameList
 
   def __init__(self, year):
+    '''
+    Initializes the DataExtractor class. Constructs and fills the teamDictionary,
+    gameDictionary, and featureDictionary.
+    '''
+    self.teamDictionary = dict()
+    self.gameDictionary = dict()
+    self.featureDictionary = dict()
+    self.gameOrder = list()
     directory = str(year) + '-data'
     file = open(directory + '/team-game-statistics.csv', 'r')
     for line in file:

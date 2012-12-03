@@ -89,8 +89,8 @@ class DataExtractor:
     self.arrangeData(gameCode)
 
 
-  def getOrderedGameList(self):
-    file = open('11-data/game.csv')
+  def getOrderedGameList(self, directory):
+    file = open(directory + '/game.csv', 'r')
     orderedGameList = list()
     for line in file:
       gameData = line.split(',')
@@ -101,8 +101,9 @@ class DataExtractor:
     file.close()
     return orderedGameList
 
-  def __init__(self):
-    file = open('11-data/team-game-statistics.csv', 'r')
+  def __init__(self, year):
+    directory = str(year) + '-data'
+    file = open(directory + '/team-game-statistics.csv', 'r')
     for line in file:
       gameData = line.split(',')
       teamCode, gameCode = gameData[0], gameData[1]
@@ -117,14 +118,13 @@ class DataExtractor:
         self.gameDictionary[gameCode] = list()
         self.gameDictionary[gameCode].append(gameData)
         self.gameOrder.append(gameCode)
-    for gameCode in self.getOrderedGameList():
+    for gameCode in self.getOrderedGameList(directory):
       self.processGame(gameCode)
     file.close()
+
+
+
 if __name__ == '__main__':
-  dataExtractor = DataExtractor()
+  dataExtractor = DataExtractor(10)
   featureDictionary =  dataExtractor.featureDictionary
-  #for key, value in featureDictionary.items():
-  #  print key 
-  #  assert(len(value) == 2)
-  #  assert(len(value[0]) == 2)
   print len(featureDictionary.keys())

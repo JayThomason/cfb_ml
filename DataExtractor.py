@@ -45,12 +45,26 @@ class DataExtractor:
     return gameDataDict
 
   def averageStats(self, statDict, numGames):
+    '''
+    Creates a dictionary of average statistics given a dictionary
+    of aggregate statistics and the number of games played.
+    '''
     averageDict = dict()
     for key,value in statDict.items():
       averageDict[key] = (1.0 * value) / numGames
     return averageDict
 
   def arrangeData(self, gameCode):
+    '''
+    Orders data correctly in the featureDictionary. Given a game code,
+    it is ensured that if the data is malformed, it is ignored,
+    otherwise, it is put in the form of a pair of input, output, where
+    the input is a pair of dictionaries of average statistics (for
+    the two playing teams) and the output is +1 if the first team won
+    and -1 if the first team lost. The dat is considered malformed if
+    there are only stats of for one team, in which case it is likely
+    that one of the teams has not played any prior games in the season.
+    '''
     data = self.featureDictionary[gameCode]
     if len(data) == 3:
       input = (data[1], data[2])
@@ -85,6 +99,12 @@ class DataExtractor:
 
 
   def getOrderedGameList(self, directory):
+    '''
+    Returns a list of games as they happen in chronological
+    order. The directory is the name of the directory which
+    holds the season data for which the ordered game list
+    is desired. 
+    '''
     file = open(directory + '/game.csv', 'r')
     orderedGameList = list()
     for line in file:

@@ -24,11 +24,30 @@
 
 
 # Constants
-offensiveStats = {'scoring offense': 35}
-defensiveStats = {'scoring defense': 35}
+NUM_PREV_GAMES = 0
 
 class DataExtractor:
 
+  def getFactors(self):
+    '''
+    Decides which factors and statistics are going to be used based
+    on the content of the offensive and defensive factor files.
+    The offensiveStats and defensiveStats dictionaries map the
+    names of statistics to their location in the game data.
+    ''' 
+    offensiveFile, defensiveFile = open('offensiveFactors'), open('defensiveFactors')
+    index = 2
+    offensiveFactors, defensiveFactors = dict(), dict()
+    for oline,dline in zip(offensiveFile, defensiveFile):
+      ofactor, dfactor = oline.split(','), dline.split(',')
+      if int(ofactor[1]) == 1:
+        self.offensiveStats[ofactor[0]] = index
+      if int(dfactor[1]) == 1:
+        self.defensiveStats[dfactor[0]] = index
+      index += 1
+    offensiveFile.close()
+    defensiveFile.close()
+    
   def extractGameData(self, firstTeamData, secondTeamData):
     '''
     Extracts the relevant data from a single game. The data is
@@ -36,12 +55,11 @@ class DataExtractor:
     e.g. processedGameData['rush att'] will return the number of 
     rushing attempts by the team in that game.
     '''
-    global offensiveStats, defensiveStats
     gameDataDict = dict()
-    for key,value in offensiveStats.items():
-      gameDataDict[key] = int(firstTeamData[value])
-    for key,value in defensiveStats.items():
-      gameDataDict[key] = int(secondTeamData[value])
+    for key,value in self.offensiveStats.items():
+      gameDataDict['off ' + key] = float(firstTeamData[value])
+    for key,value in self.defensiveStats.items():
+      gameDataDict['def ' + key] = float(secondTeamData[value])
     return gameDataDict
 
   def averageStats(self, statDict, numGames):
@@ -90,7 +108,7 @@ class DataExtractor:
       if i == 0:
         self.featureDictionary[gameCode] = list()
         self.featureDictionary[gameCode].append(1 if firstTeamData[35] > secondTeamData[35] else -1)
-      if numPrevGames > 0:
+      if numPrevGames > NUM_PREV_GAMES:
         self.featureDictionary[gameCode].append(self.averageStats(oldTeamData[numPrevGames - 1], numPrevGames))
         for key,value in oldTeamData[numPrevGames - 1].items():
           cumulativeSeasonData[key] += oldTeamData[numPrevGames - 1][key]
@@ -125,6 +143,9 @@ class DataExtractor:
     self.gameDictionary = dict()
     self.featureDictionary = dict()
     self.gameOrder = list()
+    self.offensiveStats = dict()
+    self.defensiveStats = dict()
+    self.getFactors()
     directory = str(year) + '-data'
     file = open(directory + '/team-game-statistics.csv', 'r')
     for line in file:

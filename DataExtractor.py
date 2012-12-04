@@ -24,7 +24,7 @@
 
 
 # Constants
-NUM_PREV_GAMES = 0
+NUM_PREV_GAMES = 0 
 
 class DataExtractor:
 
@@ -57,9 +57,13 @@ class DataExtractor:
     '''
     gameDataDict = dict()
     for key,value in self.offensiveStats.items():
-      gameDataDict['off ' + key] = float(firstTeamData[value])
+      gameDataDict[key + '-off'] = float(firstTeamData[value])
     for key,value in self.defensiveStats.items():
-      gameDataDict['def ' + key] = float(secondTeamData[value])
+      gameDataDict[key + '-def'] = float(secondTeamData[value])
+    if firstTeamData[35] > secondTeamData[35]:
+      gameDataDict['wins-off'] = 1
+    else:
+      gameDataDict['wins-off'] = 0 
     return gameDataDict
 
   def averageStats(self, statDict, numGames):

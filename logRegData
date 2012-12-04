@@ -1,0 +1,9 @@
+
+log reg with all features on
+train error = 0.3903, validation error = 0.3887
+
+log reg with just points
+train error = 0.3982, validation error = 0.3858
+
+No significant difference -> only use points
+

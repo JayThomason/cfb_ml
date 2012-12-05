@@ -1,3 +1,5 @@
+with half/half training and testing
+
 error
 
 
@@ -13,16 +15,32 @@ train error = 0.3862, validation error = 0.3690
 success
 
 gradient tree boosting with all features including home/away and win pct
-test = .717
+test = .622
 
 gradient tree boosting with just points, home/away, and win pct
-test = .693
+test = .641
 
 support vector machine with rgb kernel and all features
-test = .652
+test = .533
 
 support vector machine with rgb kernel and only pts, home, win
-test = .661
+test = .570
 
 
 
+4/4 vs 5/8 training made no noticeable difference
+
+log reg and gradient boosting performed best
+
+notably, with log reg, using more features did not improve the testing error,
+whereas it did with gradient boosting
+
+
+
+conclusion
+
+could be made more accurate with better features, including momentum based
+features, cyclical features, etc.
+
+many pros only use points in their statistical models, our results support
+the legitimacy of this method

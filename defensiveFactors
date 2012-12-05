@@ -1,66 +1,66 @@
-rush att,0
-rush yard,0
-rush td,0
-pass att,0
-pass comp,0
-pass yard,0
-pass td,0
-pass int,0
-pass conv,0
-kickoff ret,0
-kickoff ret yard,0
-kickoff ret td,0
-punt ret,0
-punt ret yard,0
-punt ret td,0
-fum ret,0
-fum ret yard,0
-fum ret td,0
-int ret,0
-int ret yard,0
-int ret td,0
-misc ret,0
-misc ret yard,0
-misc ret td,0
-field goal att,0
-field goal made,0
-off xp kick att,0
-off xp kick made,0
-off 2xp att,0
-off 2xp made,0
-def 2xp att,0
-def 2xp made,0
-safety,0
+rush att,1
+rush yard,1
+rush td,1
+pass att,1
+pass comp,1
+pass yard,1
+pass td,1
+pass int,1
+pass conv,1
+kickoff ret,1
+kickoff ret yard,1
+kickoff ret td,1
+punt ret,1
+punt ret yard,1
+punt ret td,1
+fum ret,1
+fum ret yard,1
+fum ret td,1
+int ret,1
+int ret yard,1
+int ret td,1
+misc ret,1
+misc ret yard,1
+misc ret td,1
+field goal att,1
+field goal made,1
+off xp kick att,1
+off xp kick made,1
+off 2xp att,1
+off 2xp made,1
+def 2xp att,1
+def 2xp made,1
+safety,1
 points,1
-punt,0
-punt yard,0
-kickoff,0
-kickoff yard,0
-kickoff touchback,0
-kickoff out-of-bounds,0
-kickoff onside,0
-fumble,0
-fumble lost,0
-tackle solo,0
-tackle assist,0
-tackle for loss,0
-tackle for loss yard,0
-sack,0
-sack yard,0
-qb hurry,0
-fumble forced,0
-pass broken up,0
-kick/punt blocked,0
-1st down rush,0
-1st down pass,0
-1st down penalty,0
-time of possession,0
-penalty,0
-penalty yard,0
-third down att,0
-third down conv,0
-fourth down att,0
-fourth down conv,0
-red zone att,0
-red zone td,0
-red zone field goal,0
+punt,1
+punt yard,1
+kickoff,1
+kickoff yard,1
+kickoff touchback,1
+kickoff out-of-bounds,1
+kickoff onside,1
+fumble,1
+fumble lost,1
+tackle solo,1
+tackle assist,1
+tackle for loss,1
+tackle for loss yard,1
+sack,1
+sack yard,1
+qb hurry,1
+fumble forced,1
+pass broken up,1
+kick/punt blocked,1
+1st down rush,1
+1st down pass,1
+1st down penalty,1
+time of possession,1
+penalty,1
+penalty yard,1
+third down att,1
+third down conv,1
+fourth down att,1
+fourth down conv,1
+red zone att,1
+red zone td,1
+red zone field goal,1

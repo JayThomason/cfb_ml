@@ -20,15 +20,15 @@ for value in trainData.values():
 #clf = SGDClassifier(loss="log", penalty="elasticnet")
 #clf = SGDClassifier(loss="hinge")
 clf = svm.SVC()
-#clf = GradientBoostingClassifier(n_estimators=1000, max_depth=7, subsample=.7)
+#clf = GradientBoostingClassifier(n_estimators=30, max_depth=3, subsample=.7)
 #clf = KNeighborsClassifier(n_neighbors=3)
-#scaledTrainInput = preprocessing.scale(trainInput)
+scaledTrainInput = preprocessing.scale(trainInput)
 clf.fit(trainInput, trainOutput)
 
 
-testExtractor = DataExtractor(9)
+testExtractor = DataExtractor(10)
 testData = testExtractor.featureDictionary
-for i in range(10,13):
+for i in range(11,13):
   testData.update(DataExtractor(i).featureDictionary)
 predictions = list()
 outcome = list()

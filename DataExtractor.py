@@ -48,7 +48,7 @@ class DataExtractor:
     offensiveFile.close()
     defensiveFile.close()
     
-  def extractGameData(self, firstTeamData, secondTeamData):
+  def extractGameData(self, firstTeamData, secondTeamData, advantage):
     '''
     Extracts the relevant data from a single game. The data is
     returned as a list, where the key is the stat name,
@@ -64,6 +64,10 @@ class DataExtractor:
       gameDataDict['wins-off'] = 1
     else:
       gameDataDict['wins-off'] = 0 
+    if int(firstTeamData[0]) == int(advantage):
+      gameDataDict['advantage'] = 1
+    else:
+      gameDataDict['advantage'] = 0 
     return gameDataDict
 
   def averageStats(self, statDict, numGames):
@@ -73,7 +77,10 @@ class DataExtractor:
     '''
     averageDict = dict()
     for key,value in statDict.items():
-      averageDict[key] = (1.0 * value) / numGames
+      if key == "advantage":
+        averageDict[key] = value
+      else:
+        averageDict[key] = (1.0 * value) / numGames
     return averageDict
 
   def arrangeData(self, gameCode):
@@ -95,11 +102,13 @@ class DataExtractor:
     else:
       self.featureDictionary.pop(gameCode)
 
-  def processGame(self, gameCode):
+  def processGame(self, game):
     '''
     Processes the next game of data by appending to the team's list of
     game data an updated dictionary with the latest cumulative stats.
     '''
+    advantage = game[1]
+    gameCode = game[0]
     for i in range(len(self.gameDictionary[gameCode])):
       firstTeamData = self.gameDictionary[gameCode][i]
       secondTeamData = self.gameDictionary[gameCode][(i + 1) % 2]
@@ -107,7 +116,7 @@ class DataExtractor:
       if teamCode not in self.teamDictionary:
         self.teamDictionary[teamCode] = list()
       oldTeamData = self.teamDictionary[teamCode]
-      cumulativeSeasonData = self.extractGameData(firstTeamData, secondTeamData)
+      cumulativeSeasonData = self.extractGameData(firstTeamData, secondTeamData, advantage)
       numPrevGames = len(oldTeamData)
       if i == 0:
         self.featureDictionary[gameCode] = list()
@@ -115,6 +124,8 @@ class DataExtractor:
       if numPrevGames > NUM_PREV_GAMES:
         self.featureDictionary[gameCode].append(self.averageStats(oldTeamData[numPrevGames - 1], numPrevGames))
         for key,value in oldTeamData[numPrevGames - 1].items():
+          if key == 'advantage':
+            continue
           cumulativeSeasonData[key] += oldTeamData[numPrevGames - 1][key]
       oldTeamData.append(cumulativeSeasonData)
     self.arrangeData(gameCode)
@@ -125,7 +136,8 @@ class DataExtractor:
     Returns a list of games as they happen in chronological
     order. The directory is the name of the directory which
     holds the season data for which the ordered game list
-    is desired. 
+    is desired. Also includes whether each game is home or
+    not.
     '''
     file = open(directory + '/game.csv', 'r')
     orderedGameList = list()
@@ -134,7 +146,10 @@ class DataExtractor:
       gameCode = gameData[0]
       if gameCode[0] == '"':
         continue
-      orderedGameList.append(gameCode)
+      if gameData[len(gameData) - 1] == "TEAM\r\n":
+        orderedGameList.append((gameCode, gameData[0][0:4]))
+      else:
+        orderedGameList.append((gameCode, "0000"))
     file.close()
     return orderedGameList
 
@@ -175,4 +190,4 @@ class DataExtractor:
 if __name__ == '__main__':
   dataExtractor = DataExtractor(12)
   featureDictionary =  dataExtractor.featureDictionary
-  print len(featureDictionary.keys())
+  print featureDictionary['0674011020121124']

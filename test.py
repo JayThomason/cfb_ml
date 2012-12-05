@@ -28,7 +28,7 @@ parser.add_option('-f', '--featureExtractor', dest='featureExtractor', type='str
 parser.add_option('-l', '--loss', dest='loss', type='string',
                   help=default('Which loss function to use (logistic, hinge, or squared)'), default="logistic")
 parser.add_option('-i', '--initStepSize', dest='initStepSize', type='float',
-                    help=default('the initial step size'), default=0.1)
+                    help=default('the initial step size'), default=0.00001)
 parser.add_option('-s', '--stepSizeReduction', dest='stepSizeReduction', type='float',
                     help=default('How much to reduce the step size [0, 1]'), default=1)
 parser.add_option('-R', '--numRounds', dest='numRounds', type='int',

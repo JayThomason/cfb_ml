@@ -1,9 +1,8 @@
 from sklearn.linear_model import SGDClassifier
-from sklearn import linear_model
-from sklearn import svm
+from sklearn import svm, preprocessing
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import GradientBoostingClassifier
 from DataExtractor import DataExtractor
-
 
 trainExtractor = DataExtractor(5)
 trainData = trainExtractor.featureDictionary
@@ -20,8 +19,10 @@ for value in trainData.values():
 
 #clf = SGDClassifier(loss="log", penalty="elasticnet")
 #clf = SGDClassifier(loss="hinge")
-clf = KNeighborsClassifier(n_neighbors=3)
-#clf = linear_model.Ridge(alpha=.5)
+clf = svm.SVC()
+#clf = GradientBoostingClassifier(n_estimators=1000, max_depth=7, subsample=.7)
+#clf = KNeighborsClassifier(n_neighbors=3)
+#scaledTrainInput = preprocessing.scale(trainInput)
 clf.fit(trainInput, trainOutput)
 
 

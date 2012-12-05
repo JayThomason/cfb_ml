@@ -1,0 +1,28 @@
+error
+
+
+log reg with all features on including win pct and home/away
+as low as
+train error = 0.3896, validation error = 0.3928
+
+log reg with just points, win pct, home/away
+train error = 0.3862, validation error = 0.3690
+
+
+
+success
+
+gradient tree boosting with all features including home/away and win pct
+test = .717
+
+gradient tree boosting with just points, home/away, and win pct
+test = .693
+
+support vector machine with rgb kernel and all features
+test = .652
+
+support vector machine with rgb kernel and only pts, home, win
+test = .661
+
+
+
